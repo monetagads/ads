@@ -59,11 +59,29 @@
                 box-shadow: 0 0 5px #007bb5;
             }
         }
+
+        /* Notification styles */
+        .notification {
+            background-color: #4caf50;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.2rem;
+            z-index: 1000;
+            display: none;
+        }
     </style>
 </head>
 <body>
     <h1>Complete Reward Task</h1>
     <button class="reward-button" onclick="showAd()">Ad Now</button>
+
+    <!-- Custom Notification -->
+    <div id="notification" class="notification">Ad Completed! Reward will be sent to your Telegram bot.</div>
 
     <script>
         const tg = window.Telegram.WebApp;
@@ -74,8 +92,9 @@
         function showAd() {
             if (typeof show_8584718 === "function") {
                 show_8584718().then(() => {
-                    alert("Ad Completed! Reward will be sent to your Telegram bot.");
-                    
+                    // Show custom notification
+                    showNotification();
+
                     // Notify the bot about the completed task
                     tg.sendData(JSON.stringify({ task: "ad_completed" }));
                 }).catch(err => {
@@ -85,6 +104,16 @@
             } else {
                 alert("Ad not available!");
             }
+        }
+
+        function showNotification() {
+            const notification = document.getElementById("notification");
+            notification.style.display = "block"; // Show notification
+
+            // Auto close notification after 3 seconds
+            setTimeout(() => {
+                notification.style.display = "none";
+            }, 3000);
         }
     </script>
 </body>
