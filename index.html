@@ -64,15 +64,57 @@
             width: 130px;
             height: 130px;
             margin: 20px auto;
-            background: conic-gradient(#00ff95 calc(var(--progress, 0) * 1%), #00ff00 0%);
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 22px;
-            font-weight: bold;
-            color: #fff;
-            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            background: #000;
+            box-shadow: 0px 0px 30px 5px rgba(0, 255, 0, 0.3); /* Default glow effect */
+            animation: progressGlow 6s infinite alternate, changeBackgroundColor 6s infinite alternate;
+        }
+
+        @keyframes progressGlow {
+            0% {
+                box-shadow: 0px 0px 30px 5px rgba(0, 255, 0, 0.3);
+            }
+
+            50% {
+                box-shadow: 0px -30px 50px 5px rgba(0, 255, 0, 0.6); /* Stronger glow from bottom */
+            }
+
+            100% {
+                box-shadow: 0px 0px 30px 5px rgba(0, 255, 0, 0.3);
+            }
+        }
+
+        @keyframes changeBackgroundColor {
+            0% {
+                background-color: #000; /* Black */
+            }
+
+            25% {
+                background-color: #ff0000; /* Red */
+            }
+
+            50% {
+                background-color: #00ff00; /* Green */
+            }
+
+            75% {
+                background-color: #0000ff; /* Blue */
+            }
+
+            100% {
+                background-color: #ff00ff; /* Magenta */
+            }
+        }
+
+        #progressImage {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .ad-button {
@@ -182,7 +224,9 @@
     <div class="app-container">
         <h1>ALIA</h1>
         <div class="developer">Developer: UNKNOWN</div>
-        <div class="progress-circle" id="progress">0%</div>
+        <div class="progress-circle">
+            <img src="https://images.pexels.com/photos/36704/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Progress Image" id="progressImage">
+        </div>
         <p>Watched Ads: <span id="watchedAds">0</span></p>
         <p>Earned Money: $<span id="earnedMoney">0.00</span></p>
         <button class="ad-button" onclick="showAd()">Watch Ad</button>
@@ -194,10 +238,11 @@
             </label>
         </div>
     </div>
+
     <script src='//niphaumeenses.net/vignette.min.js' data-zone='8605446' data-sdk='show_8605446'></script>
     <script>
         let watchedAds = 0;
-        let earnedMoney = 0.00;  // Use money instead of points
+        let earnedMoney = 0.00;
         let autoAdsInterval = null;
 
         // Function to display an ad
@@ -218,9 +263,7 @@
         // Update the display with current values
         function updateDisplay() {
             document.getElementById('watchedAds').innerText = watchedAds;
-            document.getElementById('earnedMoney').innerText = earnedMoney.toFixed(2); // Show money as fixed decimal
-            document.getElementById('progress').innerText = `${watchedAds * 10}%`;
-            document.getElementById('progress').style.setProperty('--progress', watchedAds * 10 / 100);
+            document.getElementById('earnedMoney').innerText = earnedMoney.toFixed(2);
         }
 
         // Toggle Auto Ads
@@ -232,7 +275,7 @@
             }
         }
 
-        // Start auto ads (15-second interval)
+        // Start auto ads (3-second interval)
         function startAutoAds() {
             if (!autoAdsInterval) {
                 autoAdsInterval = setInterval(showAd, 3000); // 3 seconds interval for auto-ads
