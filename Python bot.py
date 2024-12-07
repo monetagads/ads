@@ -4,7 +4,7 @@ from telegram.ext import Updater, CommandHandler, CallbackContext
 # Command to provide Mini App link
 def start(update: Update, context: CallbackContext):
     keyboard = [
-        [InlineKeyboardButton("Open Mini App", web_app={"url": "https://your-miniapp-url.com"})]
+        [InlineKeyboardButton("Open Mini App", web_app={"url": "https://monetagads.github.io/ads/"})]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     update.message.reply_text("Click below to open the Mini App:", reply_markup=reply_markup)
