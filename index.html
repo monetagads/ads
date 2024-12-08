@@ -71,8 +71,8 @@
             position: relative;
             overflow: hidden;
             background: #000;
-            box-shadow: 0px 0px 30px 5px rgba(0, 255, 0, 0.3); /* Default glow effect */
-            animation: progressGlow 6s infinite alternate, changeBackgroundColor 6s infinite alternate;
+            box-shadow: 0px 0px 30px 5px rgba(0, 255, 0, 0.3);
+            animation: progressGlow 3s infinite alternate;
         }
 
         @keyframes progressGlow {
@@ -81,33 +81,11 @@
             }
 
             50% {
-                box-shadow: 0px -30px 50px 5px rgba(0, 255, 0, 0.6); /* Stronger glow from bottom */
+                box-shadow: 0px -30px 50px 5px rgba(0, 255, 0, 0.6);
             }
 
             100% {
                 box-shadow: 0px 0px 30px 5px rgba(0, 255, 0, 0.3);
-            }
-        }
-
-        @keyframes changeBackgroundColor {
-            0% {
-                background-color: #000; /* Black */
-            }
-
-            25% {
-                background-color: #ff0000; /* Red */
-            }
-
-            50% {
-                background-color: #00ff00; /* Green */
-            }
-
-            75% {
-                background-color: #0000ff; /* Blue */
-            }
-
-            100% {
-                background-color: #ff00ff; /* Magenta */
             }
         }
 
@@ -133,61 +111,6 @@
         .ad-button:hover {
             transform: scale(1.1);
             background: linear-gradient(45deg, #009ecf, #315b9a);
-        }
-
-        .toggle-container {
-            margin-top: 20px;
-            font-size: 16px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .toggle-switch {
-            position: relative;
-            display: inline-block;
-            width: 60px;
-            height: 30px;
-        }
-
-        .toggle-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: 0.4s;
-            border-radius: 15px;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 22px;
-            width: 22px;
-            left: 4px;
-            bottom: 4px;
-            background-color: #000;
-            transition: 0.4s;
-            border-radius: 50%;
-        }
-
-        input:checked + .slider {
-            background-color: #28a745;
-        }
-
-        input:checked + .slider:before {
-            transform: translateX(28px);
         }
 
         p {
@@ -225,67 +148,31 @@
         <h1>ALIA</h1>
         <div class="developer">Developer: UNKNOWN</div>
         <div class="progress-circle">
-            <img src="https://images.pexels.com/photos/36704/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Progress Image" id="progressImage">
+            <img src="https://images.pexels.com/photos/36704/pexels-photo.jpg" alt="Progress Image" id="progressImage">
         </div>
         <p>Watched Ads: <span id="watchedAds">0</span></p>
-        <p>Earned Money: $<span id="earnedMoney">0.00</span></p>
         <button class="ad-button" onclick="showAd()">Watch Ad</button>
-        <div class="toggle-container">
-            <label for="autoAdSwitch">Auto Ads:</label>
-            <label class="toggle-switch">
-                <input type="checkbox" id="autoAdSwitch" onchange="toggleAutoAds(this)">
-                <span class="slider"></span>
-            </label>
-        </div>
     </div>
 
-    <script src='//niphaumeenses.net/vignette.min.js' data-zone='8605446' data-sdk='show_8605446'></script>
+    <script src='//niphaumeenses.net/vignette.min.js' data-zone='8605446' data-sdk='show_8605446' data-app-id='211677445'></script>
     <script>
         let watchedAds = 0;
-        let earnedMoney = 0.00;
-        let autoAdsInterval = null;
 
-        // Function to display an ad
         function showAd() {
             if (typeof show_8605446 === 'function') {
                 show_8605446().then(() => {
                     watchedAds++;
-                    earnedMoney += 0.01; // Each ad earns $0.01
                     updateDisplay();
                 }).catch(error => {
-                    console.error('Ad failed to load or display:', error);
+                    console.error('Ad failed to load:', error);
                 });
             } else {
-                console.error('Ad script is not loaded or available.');
+                console.error('Ad script not loaded.');
             }
         }
 
-        // Update the display with current values
         function updateDisplay() {
             document.getElementById('watchedAds').innerText = watchedAds;
-            document.getElementById('earnedMoney').innerText = earnedMoney.toFixed(2);
-        }
-
-        // Toggle Auto Ads
-        function toggleAutoAds(toggle) {
-            if (toggle.checked) {
-                startAutoAds();
-            } else {
-                stopAutoAds();
-            }
-        }
-
-        // Start auto ads (3-second interval)
-        function startAutoAds() {
-            if (!autoAdsInterval) {
-                autoAdsInterval = setInterval(showAd, 3000); // 3 seconds interval for auto-ads
-            }
-        }
-
-        // Stop auto ads
-        function stopAutoAds() {
-            clearInterval(autoAdsInterval);
-            autoAdsInterval = null;
         }
     </script>
 </body>
