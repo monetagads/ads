@@ -144,28 +144,101 @@
 
 <body>
     <div class="matrix-effect">H4x0r Mode</div>
-    <div class="app-container">
+    <div class="app-container" id="auth-container">
         <h1>ALIA</h1>
         <div class="developer">Developer: UNKNOWN</div>
-        <div class="progress-circle">
-            <img src="http://surl.li/xcomfj" alt="Progress Image" id="progressImage">
+        
+        <!-- Registration Form -->
+        <div id="registration-form" style="display: block;">
+            <input type="text" id="username" placeholder="Username" required /><br />
+            <input type="email" id="email" placeholder="Email" required /><br />
+            <input type="password" id="password" placeholder="Password" required /><br />
+            <button class="ad-button" onclick="registerUser()">Register</button>
         </div>
-        <p>Watched Ads: <span id="watchedAds">0</span></p>
-        <button class="ad-button" onclick="showAd()">Watch Ad</button>
+
+        <!-- Login Form -->
+        <div id="login-form" style="display: none;">
+            <input type="text" id="login-username" placeholder="Username" required /><br />
+            <input type="password" id="login-password" placeholder="Password" required /><br />
+            <button class="ad-button" onclick="loginUser()">Login</button>
+        </div>
+
+        <!-- After Login -->
+        <div id="after-login" style="display: none;">
+            <div class="progress-circle">
+                <img src="https://images.pexels.com/photos/36704/pexels-photo.jpg" alt="Progress Image" id="progressImage">
+            </div>
+            <p>Watched Ads: <span id="watchedAds">0</span></p>
+            <button class="ad-button" onclick="showAd()">Watch Ad</button>
+        </div>
     </div>
 
     <script src='//niphaumeenses.net/vignette.min.js' data-zone='8605446' data-sdk='show_8605446' data-app-id='211677445'></script>
     <script>
-        let watchedAds = localStorage.getItem('watchedAds') || 0; // ব্রাউজারের localStorage থেকে ডেটা নিন অথবা 0 সেট করুন যদি না থাকে
+        let watchedAds = localStorage.getItem('watchedAds') || 0; // Get watched ads count from localStorage
 
-        // পেজ লোড হওয়ার সময় কন্টেন্ট আপডেট করুন
-        document.addEventListener('DOMContentLoaded', updateDisplay);
+        // Check if user is already logged in
+        if (localStorage.getItem('username')) {
+            showAfterLogin();
+        }
+
+        // Show the registration form
+        function registerUser() {
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            if (username && email && password) {
+                localStorage.setItem('username', username);
+                localStorage.setItem('email', email);
+                localStorage.setItem('password', password); // Store the password securely in real applications
+                alert('Registration successful! Please log in.');
+                showLoginForm();
+            } else {
+                alert('Please fill out all fields.');
+            }
+        }
+
+        // Show the login form after registration
+        function showLoginForm() {
+            document.getElementById('registration-form').style.display = 'none';
+            document.getElementById('login-form').style.display = 'block';
+        }
+
+        // Login user
+        function loginUser() {
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+
+            const storedUsername = localStorage.getItem('username');
+            const storedPassword = localStorage.getItem('password');
+
+            if (username === storedUsername && password === storedPassword) {
+                alert('Login successful!');
+                showAfterLogin();
+            } else {
+                alert('Invalid credentials, please try again.');
+            }
+        }
+
+        // Show the main content after login
+        function showAfterLogin() {
+            document.getElementById('auth-container').innerHTML = `
+                <h1>Welcome, ${localStorage.getItem('username')}!</h1>
+                <div class="progress-circle">
+                    <img src="https://cdn.pixabay.com/photo/2024/03/27/17/23/ai-generated-8659546_1280.jpg" alt="Progress Image" id="progressImage">
+                </div>
+                <p>Watched Ads: <span id="watchedAds">${watchedAds}</span></p>
+                <button class="ad-button" onclick="showAd()">Watch Ad</button>
+            `;
+            updateDisplay();
+        }
 
         function showAd() {
             if (typeof show_8605446 === 'function') {
                 show_8605446().then(() => {
                     watchedAds++;
-                    localStorage.setItem('watchedAds', watchedAds); // ব্রাউজারের localStorage এ নতুন কাউন্ট সেভ করুন
+                    localStorage.setItem('watchedAds', watchedAds); // Save to localStorage
                     updateDisplay();
                 }).catch(error => {
                     console.error('Ad failed to load:', error);
