@@ -156,12 +156,16 @@
 
     <script src='//niphaumeenses.net/vignette.min.js' data-zone='8605446' data-sdk='show_8605446' data-app-id='211677445'></script>
     <script>
-        let watchedAds = 0;
+        let watchedAds = localStorage.getItem('watchedAds') || 0; // ব্রাউজারের localStorage থেকে ডেটা নিন অথবা 0 সেট করুন যদি না থাকে
+
+        // পেজ লোড হওয়ার সময় কন্টেন্ট আপডেট করুন
+        document.addEventListener('DOMContentLoaded', updateDisplay);
 
         function showAd() {
             if (typeof show_8605446 === 'function') {
                 show_8605446().then(() => {
                     watchedAds++;
+                    localStorage.setItem('watchedAds', watchedAds); // ব্রাউজারের localStorage এ নতুন কাউন্ট সেভ করুন
                     updateDisplay();
                 }).catch(error => {
                     console.error('Ad failed to load:', error);
