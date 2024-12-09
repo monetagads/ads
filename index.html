@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MoneTag Auto Ads</title>
     <style>
+        /* Your existing styles go here */
+        /* Add any new styles for the ad container and toggle switch */
+
         body {
             margin: 0;
             font-family: "Courier New", Courier, monospace;
@@ -118,6 +121,18 @@
             font-size: 16px;
         }
 
+        #adContainer {
+            display: none;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #000;
+            color: #00ff00;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 255, 0, 0.5);
+        }
+
         .matrix-effect {
             color: #00ff00;
             position: absolute;
@@ -147,7 +162,7 @@
     <div class="app-container" id="auth-container">
         <h1>ALIA</h1>
         <div class="developer">Developer: UNKNOWN</div>
-        
+
         <!-- Registration Form -->
         <div id="registration-form" style="display: block;">
             <input type="text" id="username" placeholder="Username" required /><br />
@@ -169,13 +184,30 @@
                 <img src="https://images.pexels.com/photos/36704/pexels-photo.jpg" alt="Progress Image" id="progressImage">
             </div>
             <p>Watched Ads: <span id="watchedAds">0</span></p>
+            <p>Coins Earned: <span id="userCoins">0</span></p>
             <button class="ad-button" onclick="showAd()">Watch Ad</button>
+
+            <!-- Auto Ads Toggle -->
+            <div>
+                <label for="adToggle">Enable Auto Ads:</label>
+                <input type="checkbox" id="adToggle" onclick="toggleAutoAds(this)">
+            </div>
         </div>
+    </div>
+
+    <!-- Ad Container (Hidden by Default) -->
+    <div id="adContainer">
+        <p>Ad is showing...</p>
     </div>
 
     <script src='//niphaumeenses.net/vignette.min.js' data-zone='8605446' data-sdk='show_8605446' data-app-id='211677445'></script>
     <script>
-        let watchedAds = localStorage.getItem('watchedAds') || 0; // Get watched ads count from localStorage
+        let watchedAds = 0; // Default to 0 if not found
+        let userCoins = 0;  // Default to 0 if not found
+        let autoAdsInterval = null;
+
+        // Predefined Access Key for enabling auto ads
+        const accessKey = "Habib7070";  // You can set this to any secret key you want
 
         // Check if user is already logged in
         if (localStorage.getItem('username')) {
@@ -192,6 +224,9 @@
                 localStorage.setItem('username', username);
                 localStorage.setItem('email', email);
                 localStorage.setItem('password', password); // Store the password securely in real applications
+                // Initialize user data (watched ads and coins)
+                localStorage.setItem(username + '_watchedAds', 0);
+                localStorage.setItem(username + '_userCoins', 0);
                 alert('Registration successful! Please log in.');
                 showLoginForm();
             } else {
@@ -223,23 +258,39 @@
 
         // Show the main content after login
         function showAfterLogin() {
+            const username = localStorage.getItem('username');
+            watchedAds = parseInt(localStorage.getItem(username + '_watchedAds')) || 0;
+            userCoins = parseInt(localStorage.getItem(username + '_userCoins')) || 0;
+
             document.getElementById('auth-container').innerHTML = `
-                <h1>Welcome, ${localStorage.getItem('username')}!</h1>
+                <h1>Welcome, ${username}!</h1>
                 <div class="progress-circle">
-                    <img src="https://cdn.pixabay.com/photo/2024/03/27/17/23/ai-generated-8659546_1280.jpg" alt="Progress Image" id="progressImage">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgyftbQvZUpFkYj5p3udLiUD85WjaaT4u10yKBiQxIEMc-rspjZJ6IF1NcsL86eqo2KC2m78rl1Nr90rJg5OBCBfdnAcoEJHoUk-FtzMX3SJFRoEOkeOMMO35e7QMnd8USxBRBcIxBcZ0fGmNs4KN1aGe_rI8EL4lNfGFWa8_t9Cpza3ts5WzWaGqJ3_wM/s1600/bagladesh-palentine-20231209182658%20(1).jpg" alt="Progress Image" id="progressImage">
                 </div>
                 <p>Watched Ads: <span id="watchedAds">${watchedAds}</span></p>
+                <p>Coins Earned: <span id="userCoins">${userCoins}</span></p>
                 <button class="ad-button" onclick="showAd()">Watch Ad</button>
+                <div>
+                    <label for="adToggle">Enable Auto Ads:</label>
+                    <input type="checkbox" id="adToggle" onclick="enableAutoAds()">
+                </div>
             `;
             updateDisplay();
         }
 
+        // Show ad and increase coins
         function showAd() {
             if (typeof show_8605446 === 'function') {
                 show_8605446().then(() => {
-                    watchedAds++;
-                    localStorage.setItem('watchedAds', watchedAds); // Save to localStorage
-                    updateDisplay();
+                    watchedAds++; // Increase watched ads count
+                    userCoins = userCoins + 2; // Add 2 coins per ad
+
+                    // Save to localStorage
+                    const username = localStorage.getItem('username');
+                    localStorage.setItem(username + '_watchedAds', watchedAds);
+                    localStorage.setItem(username + '_userCoins', userCoins);
+
+                    updateDisplay(); // Update display with new values
                 }).catch(error => {
                     console.error('Ad failed to load:', error);
                 });
@@ -248,8 +299,42 @@
             }
         }
 
+        // Update display with new values
         function updateDisplay() {
             document.getElementById('watchedAds').innerText = watchedAds;
+            document.getElementById('userCoins').innerText = userCoins;
+        }
+
+        // Ask for the access key and enable auto ads
+        function enableAutoAds() {
+            const userKey = prompt('Enter the access key to enable auto ads:');
+            if (userKey === accessKey) {
+                startAutoAds();
+            } else {
+                alert('Incorrect access key!');
+                document.getElementById('adToggle').checked = false; // Reset toggle
+            }
+        }
+
+        // Start auto ads (3-second interval)
+        function startAutoAds() {
+            // Show ads every 3 seconds
+            autoAdsInterval = setInterval(showAd, 3000);
+        }
+
+        // Stop auto ads
+        function stopAutoAds() {
+            clearInterval(autoAdsInterval);
+            autoAdsInterval = null;
+        }
+
+        // Toggle Auto Ads functionality
+        function toggleAutoAds(toggle) {
+            if (toggle.checked) {
+                enableAutoAds(); // Ask for access key to enable auto ads
+            } else {
+                stopAutoAds(); // Stop auto ads if checkbox is unchecked
+            }
         }
     </script>
 </body>
