@@ -4,11 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MoneTag Auto Ads</title>
+    <title>Auto Ads App</title>
     <style>
-        /* Your existing styles go here */
-        /* Add any new styles for the ad container and toggle switch */
-
         body {
             margin: 0;
             font-family: "Courier New", Courier, monospace;
@@ -19,7 +16,6 @@
             align-items: center;
             height: 100vh;
             overflow: hidden;
-            font-size: 18px;
         }
 
         .app-container {
@@ -37,30 +33,18 @@
         @keyframes borderGlow {
             0% {
                 border-color: #00ff00;
-                box-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00;
-            }
-
-            50% {
-                border-color: #ff00ff;
-                box-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff;
+                box-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
             }
 
             100% {
-                border-color: #00ff00;
-                box-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00;
+                border-color: #ff00ff;
+                box-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff;
             }
         }
 
-        .app-container h1 {
+        h1 {
             font-size: 32px;
             margin-bottom: 10px;
-            color: #00ff00;
-        }
-
-        .developer {
-            margin-bottom: 15px;
-            font-size: 14px;
-            color: #66ff66;
         }
 
         .progress-circle {
@@ -68,28 +52,9 @@
             height: 130px;
             margin: 20px auto;
             border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
             overflow: hidden;
             background: #000;
             box-shadow: 0px 0px 30px 5px rgba(0, 255, 0, 0.3);
-            animation: progressGlow 3s infinite alternate;
-        }
-
-        @keyframes progressGlow {
-            0% {
-                box-shadow: 0px 0px 30px 5px rgba(0, 255, 0, 0.3);
-            }
-
-            50% {
-                box-shadow: 0px -30px 50px 5px rgba(0, 255, 0, 0.6);
-            }
-
-            100% {
-                box-shadow: 0px 0px 30px 5px rgba(0, 255, 0, 0.3);
-            }
         }
 
         #progressImage {
@@ -101,241 +66,141 @@
         .ad-button {
             padding: 12px 25px;
             font-size: 16px;
-            margin: 15px 0;
             background: linear-gradient(45deg, #00d2ff, #3a7bd5);
             color: #fff;
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            transition: transform 0.3s ease, background-color 0.3s ease;
-            border: 2px solid #00ff00;
-        }
-
-        .ad-button:hover {
-            transform: scale(1.1);
-            background: linear-gradient(45deg, #009ecf, #315b9a);
+            margin-top: 15px;
         }
 
         p {
-            margin: 5px 0;
             font-size: 16px;
         }
 
-        #adContainer {
-            display: none;
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #000;
-            color: #00ff00;
-            padding: 20px;
+        /* Countdown notice styling */
+        .countdown-notice {
+            background: #ff00ff;
+            color: #fff;
+            padding: 15px;
+            margin-top: 20px;
             border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 255, 0, 0.5);
+            box-shadow: 0px 0px 10px rgba(255, 0, 255, 0.5);
+            font-size: 18px;
+            font-weight: bold;
         }
 
-        .matrix-effect {
+        .countdown {
+            font-size: 20px;
             color: #00ff00;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 24px;
-            white-space: nowrap;
-            z-index: -1;
-            animation: matrix 5s linear infinite;
-        }
-
-        @keyframes matrix {
-            0% {
-                transform: translate(-50%, -50%) rotate(0deg);
-            }
-
-            100% {
-                transform: translate(-50%, -50%) rotate(360deg);
-            }
         }
     </style>
 </head>
 
 <body>
-    <div class="matrix-effect">H4x0r Mode</div>
-    <div class="app-container" id="auth-container">
-        <h1>ALIA</h1>
-        <div class="developer">Developer: UNKNOWN</div>
-
-        <!-- Registration Form -->
-        <div id="registration-form" style="display: block;">
-            <input type="text" id="username" placeholder="Username" required /><br />
-            <input type="email" id="email" placeholder="Email" required /><br />
-            <input type="password" id="password" placeholder="Password" required /><br />
-            <button class="ad-button" onclick="registerUser()">Register</button>
+    <div class="app-container" id="main-app">
+        <h1>Welcome</h1>
+        <div class="progress-circle">
+            <img src="https://shorturl.at/8TXNl" alt="Progress Image" id="progressImage">
         </div>
+        <p>Watched Ads: <span id="watchedAds">0</span></p>
+        <p>Coins Earned: <span id="userCoins">0</span></p>
+        <button class="ad-button" onclick="showAd()">Watch Ad</button>
 
-        <!-- Login Form -->
-        <div id="login-form" style="display: none;">
-            <input type="text" id="login-username" placeholder="Username" required /><br />
-            <input type="password" id="login-password" placeholder="Password" required /><br />
-            <button class="ad-button" onclick="loginUser()">Login</button>
-        </div>
-
-        <!-- After Login -->
-        <div id="after-login" style="display: none;">
-            <div class="progress-circle">
-                <img src="https://images.pexels.com/photos/36704/pexels-photo.jpg" alt="Progress Image" id="progressImage">
-            </div>
-            <p>Watched Ads: <span id="watchedAds">0</span></p>
-            <p>Coins Earned: <span id="userCoins">0</span></p>
-            <button class="ad-button" onclick="showAd()">Watch Ad</button>
-
-            <!-- Auto Ads Toggle -->
-            <div>
-                <label for="adToggle">Enable Auto Ads:</label>
-                <input type="checkbox" id="adToggle" onclick="toggleAutoAds(this)">
-            </div>
+        <!-- Countdown notice -->
+        <div class="countdown-notice" id="countdownNotice">
+            Wallet will launch in <span class="countdown" id="countdownTimer">31 days, 0 hours, 0 minutes</span>
         </div>
     </div>
 
-    <!-- Ad Container (Hidden by Default) -->
-    <div id="adContainer">
-        <p>Ad is showing...</p>
-    </div>
+    <!-- Ad Script -->
+    <script src="//niphaumeenses.net/vignette.min.js" data-zone="8605446" data-sdk="show_8605446" data-app-id="211677445"></script>
 
-    <script src='//niphaumeenses.net/vignette.min.js' data-zone='8605446' data-sdk='show_8605446' data-app-id='211677445'></script>
     <script>
-        let watchedAds = 0; // Default to 0 if not found
-        let userCoins = 0;  // Default to 0 if not found
-        let autoAdsInterval = null;
+        let watchedAds = 0;
+        let userCoins = 0;
 
-        // Predefined Access Key for enabling auto ads
-        const accessKey = "Habib7070";  // You can set this to any secret key you want
+        // Countdown Timer
+        const launchDate = new Date();
+        launchDate.setDate(launchDate.getDate() + 31); // 31 days from today
 
-        // Check if user is already logged in
-        if (localStorage.getItem('username')) {
-            showAfterLogin();
-        }
+        const countdownTimer = document.getElementById("countdownTimer");
 
-        // Show the registration form
-        function registerUser() {
-            const username = document.getElementById('username').value;
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+        const updateCountdown = () => {
+            const now = new Date();
+            const timeDifference = launchDate - now;
 
-            if (username && email && password) {
-                localStorage.setItem('username', username);
-                localStorage.setItem('email', email);
-                localStorage.setItem('password', password); // Store the password securely in real applications
-                // Initialize user data (watched ads and coins)
-                localStorage.setItem(username + '_watchedAds', 0);
-                localStorage.setItem(username + '_userCoins', 0);
-                alert('Registration successful! Please log in.');
-                showLoginForm();
+            if (timeDifference <= 0) {
+                countdownTimer.innerText = "Wallet is now available!";
+                clearInterval(countdownInterval); // Stop the countdown
             } else {
-                alert('Please fill out all fields.');
+                const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+
+                countdownTimer.innerText = `${days} days, ${hours} hours, ${minutes} minutes`;
             }
-        }
+        };
 
-        // Show the login form after registration
-        function showLoginForm() {
-            document.getElementById('registration-form').style.display = 'none';
-            document.getElementById('login-form').style.display = 'block';
-        }
+        // Update countdown every minute
+        const countdownInterval = setInterval(updateCountdown, 60000);
 
-        // Login user
-        function loginUser() {
-            const username = document.getElementById('login-username').value;
-            const password = document.getElementById('login-password').value;
+        // Reset stats every 24 hours
+        const resetDailyStats = () => {
+            const now = new Date();
+            const lastReset = localStorage.getItem("lastResetTime");
 
-            const storedUsername = localStorage.getItem('username');
-            const storedPassword = localStorage.getItem('password');
+            if (!lastReset || new Date(lastReset).getDate() !== now.getDate()) {
+                watchedAds = 0;
+                userCoins = 0;
+                localStorage.setItem("watchedAds", watchedAds);
+                localStorage.setItem("userCoins", userCoins);
+                localStorage.setItem("lastResetTime", now);
+                updateDisplay();
+            }
+        };
 
-            if (username === storedUsername && password === storedPassword) {
-                alert('Login successful!');
-                showAfterLogin();
+        // Load data from localStorage
+        const loadStats = () => {
+            watchedAds = parseInt(localStorage.getItem("watchedAds")) || 0;
+            userCoins = parseInt(localStorage.getItem("userCoins")) || 0;
+            resetDailyStats();
+        };
+
+        // Save data to localStorage
+        const saveStats = () => {
+            localStorage.setItem("watchedAds", watchedAds);
+            localStorage.setItem("userCoins", userCoins);
+        };
+
+        // Update display
+        const updateDisplay = () => {
+            document.getElementById("watchedAds").innerText = watchedAds;
+            document.getElementById("userCoins").innerText = userCoins;
+        };
+
+        // Show Ad
+        const showAd = () => {
+            if (typeof show_8605446 === "function") {
+                show_8605446()
+                    .then(() => {
+                        watchedAds++;
+                        userCoins += 2;
+                        saveStats();
+                        updateDisplay();
+                    })
+                    .catch((error) => {
+                        console.error("Ad failed to load:", error);
+                    });
             } else {
-                alert('Invalid credentials, please try again.');
+                alert("Ad script not loaded properly.");
             }
-        }
+        };
 
-        // Show the main content after login
-        function showAfterLogin() {
-            const username = localStorage.getItem('username');
-            watchedAds = parseInt(localStorage.getItem(username + '_watchedAds')) || 0;
-            userCoins = parseInt(localStorage.getItem(username + '_userCoins')) || 0;
-
-            document.getElementById('auth-container').innerHTML = `
-                <h1>Welcome, ${username}!</h1>
-                <div class="progress-circle">
-                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgyftbQvZUpFkYj5p3udLiUD85WjaaT4u10yKBiQxIEMc-rspjZJ6IF1NcsL86eqo2KC2m78rl1Nr90rJg5OBCBfdnAcoEJHoUk-FtzMX3SJFRoEOkeOMMO35e7QMnd8USxBRBcIxBcZ0fGmNs4KN1aGe_rI8EL4lNfGFWa8_t9Cpza3ts5WzWaGqJ3_wM/s1600/bagladesh-palentine-20231209182658%20(1).jpg" alt="Progress Image" id="progressImage">
-                </div>
-                <p>Watched Ads: <span id="watchedAds">${watchedAds}</span></p>
-                <p>Coins Earned: <span id="userCoins">${userCoins}</span></p>
-                <button class="ad-button" onclick="showAd()">Watch Ad</button>
-                <div>
-                    <label for="adToggle">Enable Auto Ads:</label>
-                    <input type="checkbox" id="adToggle" onclick="enableAutoAds()">
-                </div>
-            `;
-            updateDisplay();
-        }
-
-        // Show ad and increase coins
-        function showAd() {
-            if (typeof show_8605446 === 'function') {
-                show_8605446().then(() => {
-                    watchedAds++; // Increase watched ads count
-                    userCoins = userCoins + 2; // Add 2 coins per ad
-
-                    // Save to localStorage
-                    const username = localStorage.getItem('username');
-                    localStorage.setItem(username + '_watchedAds', watchedAds);
-                    localStorage.setItem(username + '_userCoins', userCoins);
-
-                    updateDisplay(); // Update display with new values
-                }).catch(error => {
-                    console.error('Ad failed to load:', error);
-                });
-            } else {
-                console.error('Ad script not loaded.');
-            }
-        }
-
-        // Update display with new values
-        function updateDisplay() {
-            document.getElementById('watchedAds').innerText = watchedAds;
-            document.getElementById('userCoins').innerText = userCoins;
-        }
-
-        // Ask for the access key and enable auto ads
-        function enableAutoAds() {
-            const userKey = prompt('Enter the access key to enable auto ads:');
-            if (userKey === accessKey) {
-                startAutoAds();
-            } else {
-                alert('Incorrect access key!');
-                document.getElementById('adToggle').checked = false; // Reset toggle
-            }
-        }
-
-        // Start auto ads (3-second interval)
-        function startAutoAds() {
-            // Show ads every 3 seconds
-            autoAdsInterval = setInterval(showAd, 3000);
-        }
-
-        // Stop auto ads
-        function stopAutoAds() {
-            clearInterval(autoAdsInterval);
-            autoAdsInterval = null;
-        }
-
-        // Toggle Auto Ads functionality
-        function toggleAutoAds(toggle) {
-            if (toggle.checked) {
-                enableAutoAds(); // Ask for access key to enable auto ads
-            } else {
-                stopAutoAds(); // Stop auto ads if checkbox is unchecked
-            }
-        }
+        // Initialize
+        loadStats();
+        updateDisplay();
+        updateCountdown(); // Initial countdown update
     </script>
 </body>
 
