@@ -1,349 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auto Ads App</title>
+    <title>Coming Soon</title>
     <style>
         body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
             margin: 0;
-            font-family: "Courier New", Courier, monospace;
+            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            overflow: hidden;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        .app-container {
-            padding: 30px;
-            border-radius: 15px;
-            text-align: center;
-            width: 90%;
-            max-width: 400px;
-            box-shadow: 0px 6px 20px rgba(0, 255, 0, 0.3);
-            border: 2px solid #00ff00;
-            animation: borderGlow 3s infinite alternate;
-            transition: box-shadow 0.3s ease;
-        }
-
-        @keyframes borderGlow {
-            0% {
-                border-color: #00ff00;
-                box-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
-            }
-
-            100% {
-                border-color: #ff00ff;
-                box-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff;
-            }
-        }
-
-        h1 {
-            font-size: 32px;
-            margin-bottom: 10px;
-            display: inline-block;
-        }
-
-        .admin-button {
-            background-color: #ff00ff;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            display: inline-block;
-            margin-left: 20px;
-        }
-
-        .progress-circle {
-            width: 130px;
-            height: 130px;
-            margin: 20px auto;
-            border-radius: 50%;
-            overflow: hidden;
-            box-shadow: 0px 0px 30px 5px rgba(0, 255, 0, 0.3);
-        }
-
-        #progressImage {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .ad-button {
-            padding: 12px 25px;
-            font-size: 16px;
-            background: linear-gradient(45deg, #00d2ff, #3a7bd5);
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-top: 15px;
-        }
-
-        p {
-            font-size: 16px;
-        }
-
-        /* Dark Theme */
-        .dark-theme {
-            background: #1e1e1e;
-            color: #00ff00;
-        }
-
-        /* Light Theme */
-        .light-theme {
-            background: #f9f9f9;
             color: #333;
         }
-
-        /* Retro Theme */
-        .retro-theme {
-            background: #f4e1d2;
-            color: #9e2a2b;
-            font-family: 'Comic Sans MS', cursive, sans-serif;
-        }
-
-        /* Theme Button */
-        .theme-button {
-            padding: 10px 20px;
-            font-size: 14px;
-            margin-top: 20px;
-            border: none;
-            background-color: #ff00ff;
-            color: white;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-
-        /* Admin Panel */
-        #admin-login {
+        .container {
             text-align: center;
-            margin-top: 50px;
-        }
-
-        #admin-dashboard {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        /* 3 Dot Menu */
-        .menu-dots {
-            cursor: pointer;
-            font-size: 30px;
-            position: absolute;
-            top: 20px;
-            right: 20px;
-        }
-
-        .menu-options {
-            display: none;
-            position: absolute;
-            top: 60px;
-            right: 20px;
             background-color: #fff;
-            border: 1px solid #ccc;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 40px;
             border-radius: 8px;
-            padding: 10px;
-            z-index: 10;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
-
-        .menu-options button {
-            background-color: #ff00ff;
-            color: white;
+        h1 {
+            font-size: 48px;
+            color: #333;
+        }
+        p {
+            font-size: 18px;
+            margin: 20px 0;
+        }
+        .email-input {
             padding: 10px;
+            font-size: 16px;
+            width: 80%;
+            max-width: 300px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .submit-button {
+            padding: 12px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #4CAF50;
             border: none;
-            border-radius: 5px;
+            border-radius: 4px;
             cursor: pointer;
-            margin: 5px 0;
-            width: 100%;
         }
-
-        .menu-options button:hover {
-            background-color: #c400c4;
+        .submit-button:hover {
+            background-color: #45a049;
         }
-
     </style>
 </head>
-
 <body>
-    <!-- User App Container -->
-    <div class="app-container" id="main-app">
-        <h1 id="welcomeMessage">Welcome</h1>
-        <button class="admin-button" onclick="showAdminLogin()">Admin Login</button>
-        <div class="progress-circle">
-            <img src="https://shorturl.at/8TXNl" alt="Progress Image" id="progressImage">
-        </div>
-        <p>Watched Ads: <span id="watchedAds">0</span></p>
-        <p>Coins Earned: <span id="userCoins">0</span></p>
-        <button class="ad-button" onclick="showAd()">Watch Ad</button>
-        
-        <div>
-            <!-- Theme Switcher Buttons -->
-            <button class="theme-button" onclick="switchTheme('dark')">Dark Theme</button>
-            <button class="theme-button" onclick="switchTheme('light')">Light Theme</button>
-            <button class="theme-button" onclick="switchTheme('retro')">Retro Theme</button>
-        </div>
-    </div>
 
-    <!-- Admin Login -->
-    <div id="admin-login" style="display:none;">
-        <h2>Admin Login</h2>
-        <label for="adminUsername">Username:</label>
-        <input type="text" id="adminUsername" placeholder="Enter Username">
-        <label for="adminPassword">Password:</label>
-        <input type="password" id="adminPassword" placeholder="Enter Password">
-        <button onclick="adminLogin()">Login</button>
-    </div>
+<div class="container">
+    <h1>Coming Soon</h1>
+    <p>We are working hard to bring something amazing. Stay tuned!</p>
+    <input type="email" class="email-input" placeholder="Enter your email for updates" />
+    <br>
+    <button class="submit-button" onclick="alert('Thank you for subscribing!')">Subscribe</button>
+</div>
 
-    <!-- Admin Dashboard -->
-    <div id="admin-dashboard" style="display:none;">
-        <h2>Admin Dashboard</h2>
-        <div class="menu-dots" onclick="toggleMenu()">&#8942;</div>
-        <div class="menu-options" id="menuOptions">
-            <button onclick="viewUsers()">View All Users</button>
-            <button onclick="logout()">Logout</button>
-        </div>
-        <p>Number of Users: <span id="userCount">0</span></p>
-        <p>Total Ads Watched: <span id="totalAds">0</span></p>
-        <p>Total Coins Earned: <span id="totalCoins">0</span></p>
-    </div>
-
-    <!-- Ad Script -->
-   <script src='//niphaumeenses.net/vignette.min.js' data-zone='8605446' data-sdk='show_8605446'></script>
-
-    <script>
-        let watchedAds = 0;
-        let userCoins = 0;
-        let userName = localStorage.getItem("userName") || "";
-
-        // Prompt for user's name if it's not saved
-        if (!userName) {
-            userName = prompt("Please enter your name:");
-            if (userName) {
-                localStorage.setItem("userName", userName);
-            }
-        }
-
-        // Set welcome message
-        const welcomeMessage = document.getElementById("welcomeMessage");
-        welcomeMessage.innerText = `Welcome, ${userName}`;
-
-        // Load stats from localStorage
-        const loadStats = () => {
-            watchedAds = parseInt(localStorage.getItem("watchedAds")) || 0;
-            userCoins = parseInt(localStorage.getItem("userCoins")) || 0;
-            updateDisplay();
-        };
-
-        // Save stats to localStorage
-        const saveStats = () => {
-            localStorage.setItem("watchedAds", watchedAds);
-            localStorage.setItem("userCoins", userCoins);
-        };
-
-        // Update display
-        const updateDisplay = () => {
-            document.getElementById("watchedAds").innerText = watchedAds;
-            document.getElementById("userCoins").innerText = userCoins;
-        };
-
-        // Show Ad
-        const showAd = () => {
-            if (typeof show_8605446 === "function") {
-                show_8605446()
-                    .then(() => {
-                        watchedAds++;
-                        userCoins += 2;
-                        saveStats();
-                        updateDisplay();
-                    })
-                    .catch((error) => {
-                        console.error("Ad failed to load:", error);
-                    });
-            } else {
-                alert("Ad script not loaded properly.");
-            }
-        };
-
-        // Switch themes
-        const switchTheme = (theme) => {
-            const body = document.body;
-            const appContainer = document.getElementById("main-app");
-
-            // Remove existing theme classes
-            body.classList.remove('dark-theme', 'light-theme', 'retro-theme');
-            appContainer.classList.remove('dark-theme', 'light-theme', 'retro-theme');
-
-            // Add new theme class
-            if (theme === 'dark') {
-                body.classList.add('dark-theme');
-                appContainer.classList.add('dark-theme');
-            } else if (theme === 'light') {
-                body.classList.add('light-theme');
-                appContainer.classList.add('light-theme');
-            } else if (theme === 'retro') {
-                body.classList.add('retro-theme');
-                appContainer.classList.add('retro-theme');
-            }
-
-            // Store the selected theme in localStorage
-            localStorage.setItem('theme', theme);
-        };
-
-        // Admin Login
-        const adminLogin = () => {
-            const username = document.getElementById("adminUsername").value;
-            const password = document.getElementById("adminPassword").value;
-            
-            // Example check (username: admin, password: password)
-            if (username === "admin" && password === "password") {
-                document.getElementById("admin-login").style.display = "none";
-                document.getElementById("admin-dashboard").style.display = "block";
-                loadStats();
-            } else {
-                alert("Invalid credentials");
-            }
-        };
-
-        // Show Admin Login
-        const showAdminLogin = () => {
-            document.getElementById("main-app").style.display = "none";
-            document.getElementById("admin-login").style.display = "block";
-        };
-
-        // Toggle menu for Admin options
-        const toggleMenu = () => {
-            const menu = document.getElementById("menuOptions");
-            menu.style.display = menu.style.display === "block" ? "none" : "block";
-        };
-
-        // View all users
-        const viewUsers = () => {
-            for (let i = 0; i < localStorage.length; i++) {
-                const key = localStorage.key(i);
-                if (key.startsWith("user_")) {
-                    console.log(`User: ${key}, Ads Watched: ${localStorage.getItem(key + "_watchedAds")}, Coins Earned: ${localStorage.getItem(key + "_userCoins")}`);
-                }
-            }
-        };
-
-        // Logout function
-        const logout = () => {
-            document.getElementById("admin-dashboard").style.display = "none";
-            document.getElementById("admin-login").style.display = "block";
-        };
-
-        // Initialize
-        const savedTheme = localStorage.getItem('theme') || 'dark'; // Default to dark theme
-        switchTheme(savedTheme);
-        loadStats();
-    </script>
 </body>
-
 </html>
