@@ -3,48 +3,170 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buttons with Links</title>
+    <title>Hacker Style Welcome</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Courier New', Courier, monospace; /* Monospace font for hacker style */
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background: #000; /* Black background */
+            color: #00ff00; /* Neon green text color */
             text-align: center;
+            height: 100vh;
+            overflow: hidden;
+            animation: glitchBackground 5s infinite; /* Glitchy background effect */
         }
+
+        @keyframes glitchBackground {
+            0% {
+                background: #000;
+            }
+            20% {
+                background: #00ff00; /* Neon green glow */
+            }
+            40% {
+                background: #000;
+            }
+            60% {
+                background: #00ff00; /* Neon green glow */
+            }
+            80% {
+                background: #000;
+            }
+            100% {
+                background: #00ff00; /* Neon green glow */
+            }
+        }
+
         .container {
             margin: 50px auto;
             width: 80%;
             max-width: 600px;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+            border-radius: 10px;
+            box-shadow: 0 0 15px 5px rgba(0, 255, 0, 0.8); /* Glowing neon green border */
         }
-        .button {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            margin: 10px 0;
-            border: none;
-            border-radius: 5px;
-            color: #fff;
+
+        /* Input and Button styles */
+        .input-field {
+            padding: 10px;
             font-size: 18px;
-            cursor: pointer;
-            text-decoration: none;
-            text-align: center;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #00ff00;
+            background-color: #111;
+            color: #00ff00;
+            width: 70%;
         }
-        .button1 { background-color: #007bff; } /* Blue */
-        .button2 { background-color: #28a745; } /* Green */
-        .button3 { background-color: #ffc107; } /* Yellow */
-        .button4 { background-color: #dc3545; } /* Red */
+
+        .button {
+            display: inline-block;
+            padding: 15px;
+            font-size: 18px;
+            color: #fff;
+            background-color: #00ff00; /* Neon green background */
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.8); /* Neon green glow */
+        }
+
         .button:hover {
-            opacity: 0.9;
+            background-color: #00b300; /* Darker neon green on hover */
+            transform: scale(1.1);
+        }
+
+        .button:active {
+            transform: scale(1.05);
+        }
+
+        .welcome-message {
+            font-size: 24px;
+            margin-top: 20px;
+            font-weight: bold;
+            color: #00ff00;
+            animation: glitchText 1.5s infinite; /* Glitchy text effect */
+        }
+
+        @keyframes glitchText {
+            0% {
+                text-shadow: 2px 0px 10px rgba(0, 255, 0, 0.7), -2px 0px 10px rgba(0, 255, 0, 0.7);
+            }
+            25% {
+                text-shadow: -2px 0px 10px rgba(0, 255, 0, 0.7), 2px 0px 10px rgba(0, 255, 0, 0.7);
+            }
+            50% {
+                text-shadow: 2px 0px 10px rgba(0, 255, 0, 0.7), -2px 0px 10px rgba(0, 255, 0, 0.7);
+            }
+            75% {
+                text-shadow: -2px 0px 10px rgba(0, 255, 0, 0.7), 2px 0px 10px rgba(0, 255, 0, 0.7);
+            }
+            100% {
+                text-shadow: 2px 0px 10px rgba(0, 255, 0, 0.7), -2px 0px 10px rgba(0, 255, 0, 0.7);
+            }
+        }
+
+        .button-container {
+            margin-top: 40px;
+        }
+
+        .button {
+            display: inline-block;
+            width: 50%; /* Buttons are 50% of container width */
+            padding: 15px;
+            margin: 15px 0;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            background: linear-gradient(135deg, #00ff00, #00b300); /* Neon green gradient */
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .button:hover {
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.7), 0 0 40px rgba(0, 255, 0, 0.5);
+            transform: scale(1.1);
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <a href="https://www.example.com/link1" class="button button1">Button 1</a>
-        <a href="https://www.example.com/link2" class="button button2">Button 2</a>
-        <a href="https://www.example.com/link3" class="button button3">Button 3</a>
-        <a href="https://www.example.com/link4" class="button button4">Button 4</a>
+        <!-- Username input field (hidden after submit) -->
+        <input type="text" id="username" class="input-field" placeholder="Enter your Telegram username" />
+        <button class="button" id="submitBtn" onclick="displayWelcomeMessage()">Submit</button>
+        
+        <!-- Welcome message container -->
+        <div class="welcome-message" id="welcome-message"></div>
+
+        <!-- Glowing Buttons -->
+        <div class="button-container">
+            <a href="https://luglawhaulsano.net/4/8639415" class="button button1">ADS 1</a>
+            <a href="https://luglawhaulsano.net/4/8639413" class="button button2">ADS 2</a>
+            <a href="https://luglawhaulsano.net/4/8639353" class="button button3">ADS 3</a>
+            <a href="https://luglawhaulsano.net/4/8639412" class="button button4">ADS 4</a>
+        </div>
     </div>
+
+    <script>
+        function displayWelcomeMessage() {
+            // Simulate fetching Telegram username
+            var username = "Hacker123"; // This could be dynamically fetched from a bot API
+
+            // Hide input field and submit button after the user clicks
+            document.getElementById("username").style.display = "none";
+            document.getElementById("submitBtn").style.display = "none";
+            
+            // Show the welcome message with the username
+            var welcomeMessage = document.getElementById("welcome-message");
+            welcomeMessage.textContent = "Welcome, " + username + "!";
+        }
+    </script>
 </body>
 </html>
