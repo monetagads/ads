@@ -3,109 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hacker Style Welcome</title>
+    <title>Hacker Style Ad Buttons</title>
     <style>
         body {
-            font-family: 'Courier New', Courier, monospace; /* Monospace font for hacker style */
+            font-family: 'Courier New', Courier, monospace;
             margin: 0;
             padding: 0;
-            background: #000; /* Black background */
-            color: #00ff00; /* Neon green text color */
+            background: #000;
+            color: #00ff00;
             text-align: center;
             height: 100vh;
             overflow: hidden;
-            animation: glitchBackground 5s infinite; /* Glitchy background effect */
-        }
-
-        @keyframes glitchBackground {
-            0% {
-                background: #000;
-            }
-            20% {
-                background: #00ff00; /* Neon green glow */
-            }
-            40% {
-                background: #000;
-            }
-            60% {
-                background: #00ff00; /* Neon green glow */
-            }
-            80% {
-                background: #000;
-            }
-            100% {
-                background: #00ff00; /* Neon green glow */
-            }
-        }
-
-        .container {
-            margin: 50px auto;
-            width: 80%;
-            max-width: 600px;
-            padding: 20px;
-            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
-            border-radius: 10px;
-            box-shadow: 0 0 15px 5px rgba(0, 255, 0, 0.8); /* Glowing neon green border */
-        }
-
-        /* Input and Button styles */
-        .input-field {
-            padding: 10px;
-            font-size: 18px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            border: 1px solid #00ff00;
-            background-color: #111;
-            color: #00ff00;
-            width: 70%;
-        }
-
-        .button {
-            display: inline-block;
-            padding: 15px;
-            font-size: 18px;
-            color: #fff;
-            background-color: #00ff00; /* Neon green background */
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.8); /* Neon green glow */
-        }
-
-        .button:hover {
-            background-color: #00b300; /* Darker neon green on hover */
-            transform: scale(1.1);
-        }
-
-        .button:active {
-            transform: scale(1.05);
-        }
-
-        .welcome-message {
-            font-size: 24px;
-            margin-top: 20px;
-            font-weight: bold;
-            color: #00ff00;
-            animation: glitchText 1.5s infinite; /* Glitchy text effect */
-        }
-
-        @keyframes glitchText {
-            0% {
-                text-shadow: 2px 0px 10px rgba(0, 255, 0, 0.7), -2px 0px 10px rgba(0, 255, 0, 0.7);
-            }
-            25% {
-                text-shadow: -2px 0px 10px rgba(0, 255, 0, 0.7), 2px 0px 10px rgba(0, 255, 0, 0.7);
-            }
-            50% {
-                text-shadow: 2px 0px 10px rgba(0, 255, 0, 0.7), -2px 0px 10px rgba(0, 255, 0, 0.7);
-            }
-            75% {
-                text-shadow: -2px 0px 10px rgba(0, 255, 0, 0.7), 2px 0px 10px rgba(0, 255, 0, 0.7);
-            }
-            100% {
-                text-shadow: 2px 0px 10px rgba(0, 255, 0, 0.7), -2px 0px 10px rgba(0, 255, 0, 0.7);
-            }
         }
 
         .button-container {
@@ -114,7 +22,7 @@
 
         .button {
             display: inline-block;
-            width: 50%; /* Buttons are 50% of container width */
+            width: 50%;
             padding: 15px;
             margin: 15px 0;
             border: none;
@@ -122,50 +30,97 @@
             font-size: 18px;
             color: #fff;
             text-align: center;
-            text-decoration: none;
-            background: linear-gradient(135deg, #00ff00, #00b300); /* Neon green gradient */
+            background: linear-gradient(135deg, #00ff00, #00b300);
             cursor: pointer;
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.7), 0 0 40px rgba(0, 255, 0, 0.5);
         }
 
         .button:hover {
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.7), 0 0 40px rgba(0, 255, 0, 0.5);
             transform: scale(1.1);
+        }
+
+        #adOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #adContent {
+            width: 80%;
+            max-width: 600px;
+            background: #111;
+            border: 2px solid #00ff00;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            color: #00ff00;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.8);
+        }
+
+        #adTimer {
+            margin-top: 10px;
+            font-size: 18px;
+        }
+
+        iframe {
+            width: 100%;
+            height: 300px;
+            border: none;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Username input field (hidden after submit) -->
-        <input type="text" id="username" class="input-field" placeholder="Enter your Telegram username" />
-        <button class="button" id="submitBtn" onclick="displayWelcomeMessage()">Submit</button>
-        
-        <!-- Welcome message container -->
-        <div class="welcome-message" id="welcome-message"></div>
+    <div class="button-container">
+        <button class="button button1" onclick="showAd('ADS 1', 'https://luglawhaulsano.net/4/8639415')">ADS 1</button>
+        <button class="button button2" onclick="showAd('ADS 2', 'https://luglawhaulsano.net/4/8639413')">ADS 2</button>
+        <button class="button button3" onclick="showAd('ADS 3', 'https://luglawhaulsano.net/4/8639353')">ADS 3</button>
+        <button class="button button4" onclick="showAd('ADS 4', 'https://luglawhaulsano.net/4/8639412')">ADS 4</button>
+    </div>
 
-        <!-- Glowing Buttons -->
-        <div class="button-container">
-            <a href="https://luglawhaulsano.net/4/8639415" class="button button1">ADS 1</a>
-            <a href="https://luglawhaulsano.net/4/8639413" class="button button2">ADS 2</a>
-            <a href="https://luglawhaulsano.net/4/8639353" class="button button3">ADS 3</a>
-            <a href="https://luglawhaulsano.net/4/8639412" class="button button4">ADS 4</a>
+    <!-- Ad Overlay -->
+    <div id="adOverlay">
+        <div id="adContent">
+            <h2 id="adTitle"></h2>
+            <iframe id="adIframe" src=""></iframe>
+            <p id="adTimer">Closing in 30 seconds...</p>
         </div>
     </div>
 
     <script>
-        function displayWelcomeMessage() {
-            // Simulate fetching Telegram username
-            var username = "Hacker123"; // This could be dynamically fetched from a bot API
+        function showAd(adTitle, adUrl) {
+            // Display the overlay
+            var adOverlay = document.getElementById("adOverlay");
+            var adContent = document.getElementById("adContent");
+            var adIframe = document.getElementById("adIframe");
+            var adTimer = document.getElementById("adTimer");
 
-            // Hide input field and submit button after the user clicks
-            document.getElementById("username").style.display = "none";
-            document.getElementById("submitBtn").style.display = "none";
-            
-            // Show the welcome message with the username
-            var welcomeMessage = document.getElementById("welcome-message");
-            welcomeMessage.textContent = "Welcome, " + username + "!";
+            adOverlay.style.display = "flex";
+            document.getElementById("adTitle").textContent = adTitle;
+
+            // Set the ad content
+            adIframe.src = adUrl;
+
+            // Timer logic
+            var secondsLeft = 30;
+            adTimer.textContent = `Closing in ${secondsLeft} seconds...`;
+            var countdown = setInterval(function () {
+                secondsLeft--;
+                adTimer.textContent = `Closing in ${secondsLeft} seconds...`;
+
+                if (secondsLeft <= 0) {
+                    clearInterval(countdown);
+                    adOverlay.style.display = "none"; // Close the ad
+                    adIframe.src = ""; // Clear the iframe content
+                }
+            }, 1000);
         }
     </script>
 </body>
