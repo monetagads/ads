@@ -43,10 +43,10 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
 
     # Mapping callback data to links
     ads_mapping = {
-        "ads_1": "https://luglawhaulsano.net/4/8639415",
-        "ads_2": "https://luglawhaulsano.net/4/8639413",
-        "ads_3": "https://luglawhaulsano.net/4/8639353",
-        "ads_4": "https://luglawhaulsano.net/4/8639412",
+        "ads_1": "https://luglawhaulsano.net/4/8666313",
+        "ads_2": "https://luglawhaulsano.net/4/8666312",
+        "ads_3": "https://luglawhaulsano.net/4/8666310",
+        "ads_4": "https://luglawhaulsano.net/4/8666304",
     }
 
     if query.data in ads_mapping:
