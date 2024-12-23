@@ -46,7 +46,7 @@ def watch_ad(update: Update, context: CallbackContext):
 
 # Main function to run the bot
 def main():
-    TOKEN = "YOUR_TELEGRAM_BOT_API_TOKEN"  # Replace with your bot token
+    TOKEN = "7734607736:AAFLKIRbBEDJEWGmMO3tqKBT_vVoVGHAzpk"  # Replace with your bot token
     updater = Updater(TOKEN)
 
     dp = updater.dispatcher
