@@ -89,9 +89,20 @@
         <button class="ad-button" onclick="showAd()">Watch Ad</button>
     </div>
 
-    <!-- Ad Script -->
+    <!-- Existing Ad Script -->
     <script src="//niphaumeenses.net/vignette.min.js" data-zone="8605446" data-sdk="show_8605446" data-app-id="211677445"></script>
 
+    <!-- New Telegram Ads Script -->
+    <script src="https://richinfo.co/richpartners/telegram/js/tg-ob.js"></script>
+    <script>
+        window.TelegramAdsController = new TelegramAdsController();
+        window.TelegramAdsController.initialize({
+            pubId: "952938",
+            appId: "1078",
+        });
+    </script>
+
+    <!-- App Logic -->
     <script>
         let watchedAds = 0;
         let userCoins = 0;
@@ -131,18 +142,48 @@
         // Show Ad
         const showAd = () => {
             if (typeof show_8605446 === "function") {
+                // Try showing the existing ad
                 show_8605446()
                     .then(() => {
                         watchedAds++;
-                        userCoins += 2;
+                        userCoins += 2; // Reward for existing ad
                         saveStats();
                         updateDisplay();
                     })
                     .catch((error) => {
-                        console.error("Ad failed to load:", error);
+                        console.error("Existing Ad failed to load:", error);
+                        // Fallback to Telegram Ads if available
+                        if (window.TelegramAdsController) {
+                            window.TelegramAdsController.showAd({
+                                successCallback: () => {
+                                    watchedAds++;
+                                    userCoins += 3; // Reward for Telegram ad
+                                    saveStats();
+                                    updateDisplay();
+                                },
+                                failureCallback: () => {
+                                    console.error("Telegram Ad failed to load.");
+                                },
+                            });
+                        } else {
+                            alert("Both ads failed to load.");
+                        }
                     });
+            } else if (window.TelegramAdsController) {
+                // Show Telegram ad if the existing ad script is not loaded
+                window.TelegramAdsController.showAd({
+                    successCallback: () => {
+                        watchedAds++;
+                        userCoins += 3; // Reward for Telegram ad
+                        saveStats();
+                        updateDisplay();
+                    },
+                    failureCallback: () => {
+                        console.error("Telegram Ad failed to load.");
+                    },
+                });
             } else {
-                alert("Ad script not loaded properly.");
+                alert("Ad scripts not loaded properly.");
             }
         };
 
