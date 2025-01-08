@@ -4,21 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auto Ads App</title>
+    <title>MoneTag Auto Ads</title>
     <style>
         body {
             margin: 0;
             font-family: "Courier New", Courier, monospace;
+            background: #1e1e1e;
+            color: #00ff00;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             overflow: hidden;
-            background: #1e1e1e;
-            color: #00ff00;
+            font-size: 18px;
         }
 
         .app-container {
+            background: #000;
             padding: 30px;
             border-radius: 15px;
             text-align: center;
@@ -32,18 +34,30 @@
         @keyframes borderGlow {
             0% {
                 border-color: #00ff00;
-                box-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
+                box-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00;
+            }
+
+            50% {
+                border-color: #ff00ff;
+                box-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff;
             }
 
             100% {
-                border-color: #ff00ff;
-                box-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff;
+                border-color: #00ff00;
+                box-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00;
             }
         }
 
-        h1 {
+        .app-container h1 {
             font-size: 32px;
             margin-bottom: 10px;
+            color: #00ff00;
+        }
+
+        .developer {
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #66ff66;
         }
 
         .progress-circle {
@@ -51,8 +65,12 @@
             height: 130px;
             margin: 20px auto;
             border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
             overflow: hidden;
-            box-shadow: 0px 0px 30px 5px rgba(0, 255, 0, 0.3);
+            background: #000;
         }
 
         #progressImage {
@@ -64,138 +82,71 @@
         .ad-button {
             padding: 12px 25px;
             font-size: 16px;
+            margin: 15px 0;
             background: linear-gradient(45deg, #00d2ff, #3a7bd5);
             color: #fff;
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            margin-top: 15px;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            border: 2px solid #00ff00;
         }
 
-        p {
-            font-size: 16px;
+        .ad-button:hover {
+            transform: scale(1.1);
+            background: linear-gradient(45deg, #009ecf, #315b9a);
+        }
+
+        .matrix-effect {
+            color: #00ff00;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            white-space: nowrap;
+            z-index: -1;
+            animation: matrix 5s linear infinite;
+        }
+
+        @keyframes matrix {
+            0% {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+
+            100% {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
         }
     </style>
-    <!-- Pop-Under Ads Script -->
-    <script src="https://richinfo.co/richpartners/pops/js/richads-pu-ob.js" 
-        data-pubid="952938" 
-        data-siteid="null" 
-        async 
-        data-cfasync="false">
-    </script>
 </head>
 
 <body>
-    <div class="app-container" id="main-app">
-        <h1 id="welcomeMessage">Welcome</h1>
+    <div class="matrix-effect">H4x0r Mode</div>
+    <div class="app-container">
+        <h1>ALIA</h1>
+        <div class="developer">Developer: UNKNOWN</div>
         <div class="progress-circle">
-            <img src="https://shorturl.at/8TXNl" alt="Progress Image" id="progressImage">
+            <img src="https://images.pexels.com/photos/36704/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Progress Image" id="progressImage">
         </div>
-        <p>Watched Ads: <span id="watchedAds">0</span></p>
-        <p>Coins Earned: <span id="userCoins">0</span></p>
         <button class="ad-button" onclick="showAd()">Watch Ad</button>
     </div>
 
-    <!-- Existing Ad Script -->
-    <script src="//niphaumeenses.net/vignette.min.js" data-zone="952938" data-sdk="show_952938"></script>
-
-    <!-- New Telegram Ads Script -->
-    <script src="https://richinfo.co/richpartners/telegram/js/tg-ob.js"></script>
+    <!-- Added Script -->
+    <script src='//niphaumeenses.net/vignette.min.js' data-zone='8761825' data-sdk='show_8761825'></script>
     <script>
-        window.TelegramAdsController = new TelegramAdsController();
-        window.TelegramAdsController.initialize({
-            pubId: "952938",
-            appId: "1078",
-        });
-    </script>
-
-    <!-- App Logic -->
-    <script>
-        let watchedAds = 0;
-        let userCoins = 0;
-        let userName = localStorage.getItem("userName") || "";
-
-        // Prompt for user's name if it's not saved
-        if (!userName) {
-            userName = prompt("Please enter your name:");
-            if (userName) {
-                localStorage.setItem("userName", userName);
-            }
-        }
-
-        // Set welcome message
-        const welcomeMessage = document.getElementById("welcomeMessage");
-        welcomeMessage.innerText = `Welcome, ${userName}`;
-
-        // Load stats from localStorage
-        const loadStats = () => {
-            watchedAds = parseInt(localStorage.getItem("watchedAds")) || 0;
-            userCoins = parseInt(localStorage.getItem("userCoins")) || 0;
-            updateDisplay();
-        };
-
-        // Save stats to localStorage
-        const saveStats = () => {
-            localStorage.setItem("watchedAds", watchedAds);
-            localStorage.setItem("userCoins", userCoins);
-        };
-
-        // Update display
-        const updateDisplay = () => {
-            document.getElementById("watchedAds").innerText = watchedAds;
-            document.getElementById("userCoins").innerText = userCoins;
-        };
-
-        // Show Ad
-        const showAd = () => {
-            if (typeof show_8605446 === "function") {
-                // Try showing the existing ad
-                show_8605446()
-                    .then(() => {
-                        watchedAds++;
-                        userCoins += 2; // Reward for existing ad
-                        saveStats();
-                        updateDisplay();
-                    })
-                    .catch((error) => {
-                        console.error("Existing Ad failed to load:", error);
-                        // Fallback to Telegram Ads if available
-                        if (window.TelegramAdsController) {
-                            window.TelegramAdsController.showAd({
-                                successCallback: () => {
-                                    watchedAds++;
-                                    userCoins += 3; // Reward for Telegram ad
-                                    saveStats();
-                                    updateDisplay();
-                                },
-                                failureCallback: () => {
-                                    console.error("Telegram Ad failed to load.");
-                                },
-                            });
-                        } else {
-                            alert("Both ads failed to load.");
-                        }
-                    });
-            } else if (window.TelegramAdsController) {
-                // Show Telegram ad if the existing ad script is not loaded
-                window.TelegramAdsController.showAd({
-                    successCallback: () => {
-                        watchedAds++;
-                        userCoins += 3; // Reward for Telegram ad
-                        saveStats();
-                        updateDisplay();
-                    },
-                    failureCallback: () => {
-                        console.error("Telegram Ad failed to load.");
-                    },
+        // Function to display an ad
+        function showAd() {
+            if (typeof show_8761825 === 'function') {
+                show_8761825().then(() => {
+                    console.log('Ad displayed successfully.');
+                }).catch(error => {
+                    console.error('Ad failed to load or display:', error);
                 });
             } else {
-                alert("Ad scripts not loaded properly.");
+                console.error('Ad script is not loaded or available.');
             }
-        };
-
-        // Initialize
-        loadStats();
+        }
     </script>
 </body>
 
