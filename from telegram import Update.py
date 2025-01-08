@@ -1,61 +1,53 @@
 from telegram import Update
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
-import json
+from telegram.ext import (
+    ApplicationBuilder,
+    CommandHandler,
+    MessageHandler,
+    filters,
+)
 
-# Load or initialize user data
-user_data_file = "user_data.json"
-try:
-    with open(user_data_file, "r") as file:
-        user_data = json.load(file)
-except FileNotFoundError:
-    user_data = {}
+# Define your bot token (replace with the one provided by BotFather)
+BOT_TOKEN = "7812293007:AAEsLL1hTZHESYWL7hOsYNT6CEagQlO-efA"
 
-# Save user data to file
-def save_user_data():
-    with open(user_data_file, "w") as file:
-        json.dump(user_data, file)
+# Command: /start
+async def start(update: Update, context):
+    await update.message.reply_text(
+        "Hello! 🤖\nWelcome to your Telegram Bot. Use /help to see available commands."
+    )
 
-# Start command
-def start(update: Update, context: CallbackContext):
-    chat_id = str(update.effective_chat.id)
-    if chat_id not in user_data:
-        user_data[chat_id] = {"name": "", "watched_ads": 0, "coins": 0}
-        update.message.reply_text("Welcome! Please enter your name:")
-    else:
-        user = user_data[chat_id]
-        update.message.reply_text(f"Welcome back, {user['name']}! You've watched {user['watched_ads']} ads and earned {user['coins']} coins.")
+# Command: /help
+async def help_command(update: Update, context):
+    await update.message.reply_text(
+        "Here's what I can do:\n"
+        "/start - Start the bot\n"
+        "/help - Show this help message\n"
+        "Just send any message and I'll reply!"
+    )
 
-# Handle user name input
-def name_handler(update: Update, context: CallbackContext):
-    chat_id = str(update.effective_chat.id)
-    if chat_id in user_data and not user_data[chat_id]["name"]:
-        user_data[chat_id]["name"] = update.message.text
-        save_user_data()
-        update.message.reply_text(f"Thanks, {user_data[chat_id]['name']}! You can start watching ads with /watch.")
+# Handle normal text messages
+async def handle_message(update: Update, context):
+    user_message = update.message.text
+    await update.message.reply_text(f"You said: {user_message}")
 
-# Watch ad command
-def watch_ad(update: Update, context: CallbackContext):
-    chat_id = str(update.effective_chat.id)
-    if chat_id in user_data:
-        user_data[chat_id]["watched_ads"] += 1
-        user_data[chat_id]["coins"] += 2
-        save_user_data()
-        update.message.reply_text(f"Ad watched! You now have {user_data[chat_id]['coins']} coins.")
-    else:
-        update.message.reply_text("Please start with /start to register.")
+# Handle unknown commands
+async def unknown_command(update: Update, context):
+    await update.message.reply_text("Sorry, I didn't understand that command. 😕")
 
 # Main function to run the bot
-def main():
-    TOKEN = "7734607736:AAFLKIRbBEDJEWGmMO3tqKBT_vVoVGHAzpk"  # Replace with your bot token
-    updater = Updater(TOKEN)
-
-    dp = updater.dispatcher
-    dp.add_handler(CommandHandler("start", start))
-    dp.add_handler(CommandHandler("watch", watch_ad))
-    dp.add_handler(MessageHandler(Filters.text & ~Filters.command, name_handler))
-
-    updater.start_polling()
-    updater.idle()
-
 if __name__ == "__main__":
-    main()
+    # Create the bot application
+    app = ApplicationBuilder().token(BOT_TOKEN).build()
+
+    # Add command handlers
+    app.add_handler(CommandHandler("start", start))
+    app.add_handler(CommandHandler("help", help_command))
+
+    # Add a message handler for normal messages
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
+
+    # Add a fallback handler for unknown commands
+    app.add_handler(MessageHandler(filters.COMMAND, unknown_command))
+
+    # Start polling to listen for updates
+    print("Bot is running...")
+    app.run_polling()
