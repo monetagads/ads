@@ -7,7 +7,7 @@ from telegram.ext import (
 )
 
 # Define your bot token (replace with the one provided by BotFather)
-BOT_TOKEN = "7812293007:AAEsLL1hTZHESYWL7hOsYNT6CEagQlO-efA"
+BOT_TOKEN = "7734607736:AAFLKIRbBEDJEWGmMO3tqKBT_vVoVGHAzpk"
 
 # Command: /start
 async def start(update: Update, context):
